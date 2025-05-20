@@ -4,10 +4,12 @@
   "main": "server.js",
   "scripts": {
     "start": "set NODE_ENV=PRODUCTION & node server.ts",
-    "build": "npm run lint && tsc -p .",
+    "build": "npm run lint && tsc -p . && npm run format",
+    "dev": "tsx watch server.ts",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "dev": "tsx watch server.ts"
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "author": "Susovan Das <susovandas985@gmail.com>",
   "license": "ISC",
