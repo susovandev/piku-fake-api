@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "set NODE_ENV=PRODUCTION & node server.ts",
-    "build": "npm run lint && tsc -p . && npm run format",
+    "build": "npm run lint && tsc -p . && npm run format && tsc-alias ",
     "dev": "tsx watch server.ts",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
@@ -16,11 +16,17 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.27.0",
+    "@types/express": "^5.0.2",
     "eslint": "^9.27.0",
     "globals": "^16.1.0",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
   }
 }
