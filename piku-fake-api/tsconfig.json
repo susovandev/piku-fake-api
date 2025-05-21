@@ -4,7 +4,7 @@
     "module": "ES2022",
     "moduleResolution": "Node",
     "esModuleInterop": true,
-    // "rootDir": "./src",
+    "rootDir": "./src",
     "outDir": "./dist",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -14,6 +14,6 @@
     },
     "typeRoots": ["./src/types"]
   },
-  "include": ["server.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

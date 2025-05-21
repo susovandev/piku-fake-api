@@ -1,4 +1,4 @@
-import { Server } from '@/app';
+import { Server } from './app.js';
 
 class App {
   public static main() {
