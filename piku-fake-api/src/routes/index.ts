@@ -1,4 +1,4 @@
-import Logger from '@/utils/logger.js';
+import { Logger } from '@/utils/index.js';
 import { Application, Request, Response } from 'express';
 
 const appRouter = (app: Application) => {

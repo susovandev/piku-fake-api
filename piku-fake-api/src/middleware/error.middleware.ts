@@ -1,4 +1,4 @@
-import { CustomError } from '@/utils/ApiError.js';
+import { CustomError } from '@/utils/index.js';
 import { Request, Response } from 'express';
 
 const globalErrorHandler = (err: CustomError, req: Request, res: Response) => {

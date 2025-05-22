@@ -2,15 +2,14 @@ import express from 'express';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 import mongoose from 'mongoose';
-import { config } from '@/config/config.js';
-import morganMiddleware from '@/config/morganMiddleware.js';
-import Logger from '@/utils/logger.js';
+import { config, swaggerDocs, connectDB } from '@/config/index.js';
+import {
+  morganMiddleware,
+  notFoundHandler,
+  globalErrorHandler,
+} from '@/middleware/index.js';
+import { Logger } from '@/utils/index.js';
 import appRouter from '@/routes/index.js';
-import notFoundHandler from '@/middleware/notFoundHandler.js';
-import globalErrorHandler from '@/middleware/error.middleware.js';
-import { swaggerDocs } from '@/config/swaggerConfig.js';
-import connectDB from '@/config/db/index.js';
-
 
 export class Server {
   public app: express.Application;
