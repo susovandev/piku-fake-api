@@ -1,3 +1,3 @@
-import { IProduct, IDimensions, IReviews } from './product.interface.js';
+import { IProduct, IReviews } from '@/types/product.interface.js';
 
-export { IProduct, IDimensions, IReviews };
+export { IProduct, IReviews };

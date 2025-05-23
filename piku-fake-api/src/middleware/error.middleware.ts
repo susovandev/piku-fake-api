@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
+import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { config } from '@/config/index.js';
 import { CustomError, Logger } from '@/utils/index.js';
-import { NextFunction, Request, Response } from 'express';
 
 const formatErrorResponse = (
   res: Response,
@@ -22,7 +22,7 @@ const globalErrorHandler = (
   err: unknown,
   _: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) => {
   Logger.error('Global error handler', err);
   if (err instanceof CustomError) {

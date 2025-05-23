@@ -1,7 +1,7 @@
-import morganMiddleware from './morganMiddleware.js';
-import globalErrorHandler from './error.middleware.js';
-import notFoundHandler from './notFoundHandler.js';
-import validateRequest from './validateRequest.js';
+import morganMiddleware from '@/middleware/morganMiddleware.js';
+import globalErrorHandler from '@/middleware/error.middleware.js';
+import notFoundHandler from '@/middleware/notFoundHandler.js';
+import validateRequest from '@/middleware/validateRequest.js';
 
 export {
   morganMiddleware,

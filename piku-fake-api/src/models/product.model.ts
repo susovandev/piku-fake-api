@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IProduct, IDimensions, IReviews } from '@/types/index.js';
+import { IProduct, IReviews } from '@/types/index.js';
 
 const reviewsSchema: Schema<IReviews> = new Schema({
   rating: { type: Number, required: true },
@@ -7,12 +7,6 @@ const reviewsSchema: Schema<IReviews> = new Schema({
   date: { type: Date, default: Date.now },
   reviewerName: { type: String, required: true },
   reviewerEmail: { type: String, required: true },
-});
-
-const dimensionsSchema: Schema<IDimensions> = new Schema({
-  width: { type: Number, required: true },
-  height: { type: Number, required: true },
-  depth: { type: Number, required: true },
 });
 
 const productSchema: Schema<IProduct> = new Schema(
@@ -29,7 +23,6 @@ const productSchema: Schema<IProduct> = new Schema(
     brand: { type: String, required: true },
     sku: { type: String, required: true },
     weight: { type: Number, required: true },
-    dimensions: { type: dimensionsSchema, required: true },
     warrantyInformation: { type: String, required: true },
     shippingInformation: { type: String, required: true },
     availabilityStatus: {
@@ -61,8 +54,8 @@ const productSchema: Schema<IProduct> = new Schema(
         message: 'Thumbnail must be a valid image URL.',
       },
     },
-    videoUrl: {
-      type: String,
+    video: {
+      type: [String],
       validate: {
         validator: (url: string) => /^https?:\/\/.+/.test(url),
         message: 'Video URL must be a valid URL.',

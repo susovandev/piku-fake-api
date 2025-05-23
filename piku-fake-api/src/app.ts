@@ -10,7 +10,6 @@ import {
 } from '@/middleware/index.js';
 import { Logger } from '@/utils/index.js';
 import appRouter from '@/routes/index.js';
-
 export class Server {
   public app: express.Application;
 
@@ -74,11 +73,15 @@ export class Server {
     });
   }
 
-  private serverListen() {
-    this.app.listen(config.port, () => {
-      Logger.info(
-        `Server is running on http://localhost:${config.port} in ${config.node_env} mode`,
-      );
-    });
+  private async serverListen() {
+    try {
+      this.app.listen(config.port, () => {
+        Logger.info(
+          `Server is running on http://localhost:${config.port} in ${config.node_env} mode`,
+        );
+      });
+    } catch (error) {
+      Logger.error(`Server startup failed: `, error);
+    }
   }
 }

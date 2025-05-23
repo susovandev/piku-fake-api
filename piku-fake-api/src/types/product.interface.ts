@@ -1,11 +1,5 @@
 import { Document, ObjectId } from 'mongoose';
 
-export interface IDimensions {
-  width: number;
-  height: number;
-  depth: number;
-}
-
 export interface IReviews {
   rating: number;
   comment: string;
@@ -27,7 +21,6 @@ export interface IProduct extends Document {
   brand: string;
   sku: string;
   weight: number;
-  dimensions: IDimensions;
   warrantyInformation: string;
   shippingInformation: string;
   availabilityStatus: string;
@@ -35,7 +28,7 @@ export interface IProduct extends Document {
   returnPolicy: string;
   minimumOrderQuantity: number;
   images: string[];
-  videoUrl: string;
+  video: string[];
   isPublished: boolean;
   isFeatured: boolean;
   thumbnail: string;

@@ -1,11 +1,5 @@
 import Joi from 'joi';
 
-const dimensionsSchemaValidate = Joi.object({
-  width: Joi.number().required(),
-  height: Joi.number().required(),
-  depth: Joi.number().required(),
-});
-
 const reviewsSchemaValidate = Joi.object({
   rating: Joi.number().min(1).max(5).required(),
   comment: Joi.string().required(),
@@ -31,7 +25,6 @@ const createProductSchemaValidate = Joi.object({
   brand: Joi.string().trim().required(),
   sku: Joi.string().trim().alphanum().required(),
   weight: Joi.number().positive().required(),
-  dimensions: dimensionsSchemaValidate.required(),
   warrantyInformation: Joi.string().required(),
   shippingInformation: Joi.string().required(),
   availabilityStatus: Joi.string()
@@ -40,24 +33,6 @@ const createProductSchemaValidate = Joi.object({
   reviews: Joi.array().items(reviewsSchemaValidate).optional(),
   returnPolicy: Joi.string().required(),
   minimumOrderQuantity: Joi.number().integer().min(1).default(1),
-  images: Joi.array()
-    .items(
-      Joi.string()
-        .uri()
-        .pattern(/\.(jpg|jpeg|png|webp|gif)$/),
-    )
-    .min(1)
-    .required(),
-  thumbnail: Joi.string()
-    .uri()
-    .pattern(/\.(jpg|jpeg|png|webp|gif)$/)
-    .required(),
-  videoUrl: Joi.string()
-    .uri()
-    .pattern(/\.(mp4|ogg|webm)$/)
-    .optional(),
-  isPublished: Joi.boolean().default(false),
-  isFeatured: Joi.boolean().default(false),
 });
 
 export { createProductSchemaValidate };

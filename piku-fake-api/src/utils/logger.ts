@@ -1,5 +1,5 @@
-import { config } from '@/config/index.js';
 import winston from 'winston';
+import { config } from '@/config/index.js';
 
 const levels = {
   error: 0,

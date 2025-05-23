@@ -1,5 +1,7 @@
-import config from './config.js';
-import swaggerDocs from './swaggerConfig.js';
-import connectDB from './db/index.js';
+import config from '@/config/config.js';
+import swaggerDocs from '@/config/swaggerConfig.js';
+import connectDB from '@/config/db/index.js';
+import upload from '@/config/multerConfig.js';
+import redisClient from '@/config/redis.js';
 
-export { config, swaggerDocs, connectDB };
+export { config, swaggerDocs, connectDB, upload, redisClient };

@@ -1,6 +1,6 @@
-import { Logger } from '@/utils/index.js';
 import { Application, Request, Response } from 'express';
-import productRouter from './product.routes.js';
+import { Logger } from '@/utils/index.js';
+import productRouter from '@/routes/product.routes.js';
 
 const appRouter = (app: Application) => {
   /**

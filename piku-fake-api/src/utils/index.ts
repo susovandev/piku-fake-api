@@ -7,9 +7,11 @@ import {
   NotFoundException,
   ConflictException,
   InternalServerException,
-} from './ApiError.js';
+} from './apiError.js';
 import TryCatchHandler from './tryCatchHandler.js';
 import ApiResponse from './apiResponse.js';
+import cloudinaryService from './cloudinary.js';
+import optimizeImages from './optimizeImages.js';
 
 export {
   Logger,
@@ -22,4 +24,6 @@ export {
   InternalServerException,
   TryCatchHandler,
   ApiResponse,
+  cloudinaryService,
+  optimizeImages,
 };
