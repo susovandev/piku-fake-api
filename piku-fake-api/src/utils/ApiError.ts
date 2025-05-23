@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 abstract class CustomError extends Error {
   abstract statusCode: number;
   constructor(message: string) {
@@ -6,41 +7,41 @@ abstract class CustomError extends Error {
 }
 
 class BadRequestException extends CustomError {
-  statusCode = 400;
+  statusCode = StatusCodes.BAD_REQUEST;
   constructor(message: string) {
     super(message);
   }
 }
 
 class UnauthorizedException extends CustomError {
-  statusCode = 401;
+  statusCode = StatusCodes.UNAUTHORIZED;
   constructor(message: string) {
     super(message);
   }
 }
 
 class ForbiddenException extends CustomError {
-  statusCode = 403;
+  statusCode = StatusCodes.FORBIDDEN;
   constructor(message: string) {
     super(message);
   }
 }
 
 class NotFoundException extends CustomError {
-  statusCode = 404;
+  statusCode = StatusCodes.NOT_FOUND;
   constructor(message: string) {
     super(message);
   }
 }
 class ConflictException extends CustomError {
-  statusCode = 409;
+  statusCode = StatusCodes.CONFLICT;
   constructor(message: string) {
     super(message);
   }
 }
 
 class InternalServerException extends CustomError {
-  statusCode = 500;
+  statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
   constructor(message: string) {
     super(message);
   }

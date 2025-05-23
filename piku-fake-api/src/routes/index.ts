@@ -1,5 +1,6 @@
 import { Logger } from '@/utils/index.js';
 import { Application, Request, Response } from 'express';
+import productRouter from './product.routes.js';
 
 const appRouter = (app: Application) => {
   /**
@@ -32,6 +33,8 @@ const appRouter = (app: Application) => {
     Logger.debug('This is a debug log');
     res.send('Hello world');
   });
+
+  app.use('/api/v1/products', productRouter);
 };
 
 export default appRouter;

@@ -23,7 +23,7 @@ const productSchema: Schema<IProduct> = new Schema(
     category: { type: String, required: true },
     price: { type: Number, required: true },
     discountPercentage: { type: Number, required: true },
-    rating: { type: Number },
+    rating: { type: Number, default: 0 },
     stock: { type: Number, required: true },
     tags: { type: [String], required: true },
     brand: { type: String, required: true },
@@ -35,6 +35,7 @@ const productSchema: Schema<IProduct> = new Schema(
     availabilityStatus: {
       type: String,
       enum: ['In Stock', 'Out of Stock', 'Discontinued'],
+      default: 'In Stock',
       required: true,
     },
     reviews: { type: [reviewsSchema], required: true },

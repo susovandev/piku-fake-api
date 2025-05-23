@@ -6,9 +6,11 @@ const validateRequest = (schema: ObjectSchema) => {
     const { error } = schema.validate(req.body, { abortEarly: false });
 
     if (error) {
-      return res
-        .status(400)
-        .json({ error: error.details.map((e) => e.message) });
+      return res.status(400).json({
+        statusCode: 400,
+        success: false,
+        error: error.details.map((e) => e.message.replaceAll('"', '')),
+      });
     }
 
     next();

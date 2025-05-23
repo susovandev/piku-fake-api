@@ -1,5 +1,5 @@
 import { Router, Response } from 'express';
-import Logger from '../utils/logger.js';
+import { Logger } from '@/utils/index.js';
 
 const router: Router = Router();
 

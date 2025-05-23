@@ -36,7 +36,7 @@ const createProductSchemaValidate = Joi.object({
   shippingInformation: Joi.string().required(),
   availabilityStatus: Joi.string()
     .valid('In Stock', 'Out of Stock', 'Discontinued')
-    .required(),
+    .optional(),
   reviews: Joi.array().items(reviewsSchemaValidate).optional(),
   returnPolicy: Joi.string().required(),
   minimumOrderQuantity: Joi.number().integer().min(1).default(1),
@@ -48,8 +48,14 @@ const createProductSchemaValidate = Joi.object({
     )
     .min(1)
     .required(),
-  thumbnail: Joi.string().uri().required(),
-  videoUrl: Joi.string().uri().optional(),
+  thumbnail: Joi.string()
+    .uri()
+    .pattern(/\.(jpg|jpeg|png|webp|gif)$/)
+    .required(),
+  videoUrl: Joi.string()
+    .uri()
+    .pattern(/\.(mp4|ogg|webm)$/)
+    .optional(),
   isPublished: Joi.boolean().default(false),
   isFeatured: Joi.boolean().default(false),
 });

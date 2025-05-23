@@ -1,26 +1,58 @@
-import { CustomError } from '@/utils/index.js';
-import { Request, Response } from 'express';
+import mongoose from 'mongoose';
+import { StatusCodes } from 'http-status-codes';
+import { config } from '@/config/index.js';
+import { CustomError, Logger } from '@/utils/index.js';
+import { NextFunction, Request, Response } from 'express';
 
-const globalErrorHandler = (err: CustomError, req: Request, res: Response) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Something went wrong';
-
-  const response: {
-    statusCode: number;
-    status: boolean;
-    message: string;
-    error?: CustomError;
-  } = {
+const formatErrorResponse = (
+  res: Response,
+  statusCode: number,
+  message: string,
+  err?: unknown,
+) => {
+  return res.status(statusCode).json({
     statusCode,
     status: false,
     message,
-  };
+    ...(config.node_env === 'DEVELOPMENT' && { error: err }),
+  });
+};
 
-  if (process.env.NODE_ENV === 'development') {
-    response.error = err;
+const globalErrorHandler = (
+  err: unknown,
+  _: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  Logger.error('Global error handler', err);
+  if (err instanceof CustomError) {
+    return formatErrorResponse(res, err.statusCode, err.message, err);
   }
 
-  res.status(statusCode).json(response);
+  if (err instanceof mongoose.Error.ValidationError) {
+    return formatErrorResponse(
+      res,
+      StatusCodes.BAD_REQUEST,
+      `Validation error: ${err.message}`,
+      err,
+    );
+  }
+
+  if (err instanceof mongoose.Error.CastError) {
+    return formatErrorResponse(
+      res,
+      StatusCodes.BAD_REQUEST,
+      `Cast error: Invalid object ID format`,
+      err,
+    );
+  }
+
+  return formatErrorResponse(
+    res,
+    StatusCodes.INTERNAL_SERVER_ERROR,
+    'Something went wrong',
+    err,
+  );
 };
 
 export default globalErrorHandler;

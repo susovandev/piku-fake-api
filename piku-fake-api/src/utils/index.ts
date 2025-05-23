@@ -8,6 +8,8 @@ import {
   ConflictException,
   InternalServerException,
 } from './ApiError.js';
+import TryCatchHandler from './tryCatchHandler.js';
+import ApiResponse from './apiResponse.js';
 
 export {
   Logger,
@@ -18,4 +20,6 @@ export {
   NotFoundException,
   ConflictException,
   InternalServerException,
+  TryCatchHandler,
+  ApiResponse,
 };
