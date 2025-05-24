@@ -19,4 +19,6 @@ router
   )
   .get(productController.getAllProducts);
 
+router.route('/:productId').get(productController.getProductById);
+
 export default router;

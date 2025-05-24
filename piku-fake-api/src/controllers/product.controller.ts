@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { Product } from '@/models/index.js';
 import { IProduct } from '@/types/index.js';
-import { ApiResponse, BadRequestException, Logger } from '@/utils/index.js';
+import { ApiResponse, Logger } from '@/utils/index.js';
 import { TryCatchHandler } from '@/utils/index.js';
-import { productQueue } from '@/jobs/queue/product.queue.js';
+import { productServices } from '@/services/index.js';
 
 class ProductController {
   getAllProducts = TryCatchHandler(async (req: Request, res: Response) => {
@@ -13,17 +12,12 @@ class ProductController {
 
   getProductById = TryCatchHandler(
     async (req: Request<{ productId: string }>, res: Response) => {
+      Logger.info('Attempting to retrieve a product by ID');
+
       const { productId } = req.params;
-      Logger.info(`Fetching product by ID: ${productId}`);
+      const product = await productServices.getProductByIdService(productId);
 
-      const product = await Product.findById(productId);
-      if (!product) {
-        Logger.warn(`Product not found for ID: ${productId}`);
-        throw new BadRequestException('Product not found with the provided ID');
-      }
-
-      Logger.info(`Product retrieved successfully for ID: ${productId}`);
-
+      // Return a success response
       res
         .status(StatusCodes.OK)
         .json(
@@ -33,6 +27,7 @@ class ProductController {
             product,
           ),
         );
+      Logger.info(`Product retrieved successfully for ID: ${productId}`);
     },
   );
 
@@ -40,42 +35,13 @@ class ProductController {
     async (req: Request<object, object, Partial<IProduct>>, res: Response) => {
       Logger.info('Attempting to create a new product');
 
-      // Get files and data from the request
-      const files = req.files as Record<string, Express.Multer.File[]>;
-      const images = files?.images || [];
-      const videos = files?.videos || [];
-      const thumbnailLocalFilePath = files?.thumbnail[0];
+      // Call the service to create a new product
+      await productServices.createNewProductService(
+        req.body,
+        req.files as Record<string, Express.Multer.File[]>,
+      );
 
-      if (images.length === 0 && !thumbnailLocalFilePath) {
-        throw new BadRequestException('No images or thumbnail provided');
-      }
-
-      const jobData: {
-        productData: Partial<IProduct>;
-        files: {
-          thumbnailPath: string;
-          imagesPaths: string[];
-          videoPaths?: string[];
-        };
-      } = {
-        productData: req.body,
-        files: {
-          thumbnailPath: thumbnailLocalFilePath?.path,
-          imagesPaths: images.map((img) => img?.path),
-          videoPaths: videos.map((video) => video?.path),
-        },
-      };
-
-      await productQueue.add('create-product-job', jobData, {
-        attempts: 3,
-        backoff: {
-          type: 'exponential',
-          delay: 1000,
-        },
-        removeOnComplete: true,
-        removeOnFail: false,
-      });
-
+      // Return a success response
       return res
         .status(StatusCodes.ACCEPTED)
         .json(

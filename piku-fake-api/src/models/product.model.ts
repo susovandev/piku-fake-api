@@ -56,10 +56,6 @@ const productSchema: Schema<IProduct> = new Schema(
     },
     video: {
       type: [String],
-      validate: {
-        validator: (url: string) => /^https?:\/\/.+/.test(url),
-        message: 'Video URL must be a valid URL.',
-      },
     },
     isPublished: { type: Boolean, default: false },
     isFeatured: { type: Boolean, default: false },

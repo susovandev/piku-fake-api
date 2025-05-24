@@ -11,8 +11,8 @@ new Worker(
       const { productData, files } = job.data;
       const { thumbnailPath, imagesPaths, videoPaths } = files;
 
-      if (!thumbnailPath || !imagesPaths || !videoPaths) {
-        throw new Error('Missing required files');
+      if ((!thumbnailPath || !imagesPaths) && !videoPaths) {
+        throw new Error('No files provided');
       }
 
       Logger.info('Optimizing thumbnail and uploading to Cloudinary');
@@ -34,13 +34,18 @@ new Worker(
       );
       const imageUrls = optimizedImages.map((res) => res?.secure_url);
 
+      let videoUrls: string[] = [];
+      Logger.warn('Error occurred here');
       // Upload videos to Cloudinary
-      const uploadedVideos = await Promise.all(
-        videoPaths.map(async (path: string) => {
-          return cloudinaryService.uploadVideoOnCloudinary(path, 'products');
-        }),
-      );
-      const videoUrls = uploadedVideos.map((res) => res?.secure_url);
+      if (videoPaths) {
+        Logger.info('Uploading videos to Cloudinary');
+        const uploadedVideos = await Promise.all(
+          videoPaths.map(async (path: string) => {
+            return cloudinaryService.uploadVideoOnCloudinary(path, 'products');
+          }),
+        );
+        videoUrls = uploadedVideos.map((res) => res?.secure_url);
+      }
 
       Logger.info('Creating new product');
       const newProduct = await Product.create({
